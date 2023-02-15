@@ -264,13 +264,10 @@ namespace Lab13Main
                 {
                     curNode = curNode.next;
                 }
-                Console.WriteLine("next: " + curNode.next.data.ToString());
-                Console.WriteLine("next.prev: " + curNode.next.prev.data.ToString());
-                Console.WriteLine("prev: " + curNode.prev.data.ToString());
-                Console.WriteLine("prev.next: " + curNode.prev.next.data.ToString());
-                Console.WriteLine(this[0]);
-                Console.WriteLine(start.data.ToString());
-                Console.WriteLine(curNode.data.ToString());
+                if (curNode == start)
+                {
+                    start = curNode.next;
+                }                
                 curNode.next.prev = curNode.prev;                
                 curNode.prev.next = curNode.next;
                 --Count;

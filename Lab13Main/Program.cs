@@ -29,15 +29,10 @@
             var list2 = new List<string>();
             list2.Add("s1");
             collection1.Add(new Express("express 1", 1, 1, list1));
-            collection2.Add(new Express("express 1", 1, 1, list2));
-
-            collection1.Print();
-            collection1.Remove(0);
-            collection1.Print();
-            collection2.Remove(0);
+            collection2.Add(new Express("express 1", 1, 1, list2));           
 
             collection1.Remove(0);
-            collection1.Print();
+            collection2.Remove(1);
 
             collection2[0] = new Transport("new transport 1", 1);
 
