@@ -142,9 +142,18 @@ namespace Lab13Main
             Console.WriteLine("]");
         }
 
-        IEnumerator<Transport> IEnumerable<Transport>.GetEnumerator()
+        public IEnumerator<Transport> GetEnumerator()
         {
-            return (IEnumerator<Transport>)GetEnumerator();
+            if (start != null)
+            {
+                var curNode = start;
+                for (int i = 0; i < Count; ++i)
+                {
+                    yield return curNode.data;
+                    curNode = curNode.next;
+                }
+            }
+            yield break;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -152,35 +161,21 @@ namespace Lab13Main
             return (IEnumerator)GetEnumerator();
         }
 
-        public ListEnum GetEnumerator()
-        {
-            var arr = new Transport[Count];
-            if (start != null)
-            {
-                var curNode = start;
-                for (int i = 0; i < Count; ++i)
-                {
-                    arr[i] = curNode.data;
-                    curNode = curNode.next;
-                }
-            }            
-            return new ListEnum(arr);
-        }
-
         public void Clear()
         {
             if (start != null)
             {
-                var curNode = start;
                 for (int i = 0; i < Count - 1; ++i)
                 {
-                    curNode.data = null;
-                    curNode = curNode.next;
-                    curNode.prev = null;
+                    start.next.prev = start.prev;
+                    start.prev.next = start.next;
+                    start = start.next;
                 }
-                curNode.data = null;
                 Count = 0;
-            }            
+                start.next = null;
+                start.prev = null;
+                start = null;
+            }
         }
 
         public bool Contains(Transport toFind)
@@ -308,44 +303,6 @@ namespace Lab13Main
             {
                 Add(t);
             }
-        }
-
-        public class ListEnum: IEnumerator
-        {
-            public Transport[] arr;
-            int position = -1;
-
-            public ListEnum(Transport[] list)
-            {
-                arr = list;
-            }
-
-            public bool MoveNext()
-            {
-                position++;
-                return (position < arr.Length);
-            }
-
-            public void Reset()
-            {
-                position = -1;
-            }
-
-            object IEnumerator.Current
-            {
-                get
-                {
-                    return Current;
-                }
-            }
-
-            public Transport Current
-            {
-                get
-                {
-                    return arr[position];
-                }
-            }
-        }
+        }        
     }
 }
